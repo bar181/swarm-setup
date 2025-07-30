@@ -8,6 +8,7 @@
 3. **Memory Integration** - SQLite persistence for context retention
 4. **Parallel Execution** - Mandatory for efficiency (up to 10x faster)
 5. **Model Selection Guide** - When to use Sonnet 4 vs Opus 4
+6. **MCP Integration** - Leverage 87 claude-flow MCP tools
 
 ### Critical Rules:
 - **ALWAYS** start with research phase - no exceptions
@@ -348,7 +349,30 @@ Review and refactor [MODULE/FEATURE]:
 - Performance doesn't degrade
 ```
 
-### 7. Documentation Update
+### 7. Module Organization & MCP Creation
+
+```bash
+# Use when: Organizing code into modules or creating MCPs
+# Swarm size: 1-2 agents
+
+# Analyze project for modular boundaries
+@modular-designer analyze project structure:
+- Identify module boundaries
+- Detect MCP candidates (3+ similar implementations)
+- Generate AI-optimized READMEs
+- Create MCP configurations
+
+# Quick MCP detection
+./.claude/scripts/detect-mcp-candidates.sh
+
+# Example output:
+✓ Strong MCP Candidate: ./agents/llm_providers
+  - Implementations: 5 (openai, anthropic, google, cohere, mistral)
+  - Has Interface: true
+  - MCP Score: 3/3
+```
+
+### 8. Documentation Update
 
 ```bash
 # Use when: Creating/updating docs
@@ -731,5 +755,55 @@ Store performance baseline:
 - Value: Response times, memory usage
 - TTL: 90 days for trending
 ```
+
+## 🔧 MCP (Model Context Protocol) Quick Reference
+
+### Available MCP Tools (87 total)
+```bash
+# Start MCP server with all features
+npx claude-flow@alpha mcp start --auto-orchestrator --enable-neural --enable-wasm
+
+# List tools by category
+npx claude-flow@alpha mcp tools --category=swarm    # 12 swarm tools
+npx claude-flow@alpha mcp tools --category=neural   # 15 AI tools
+npx claude-flow@alpha mcp tools --category=memory   # 12 persistence tools
+npx claude-flow@alpha mcp tools --category=workflow # 11 automation tools
+```
+
+### Common MCP Patterns
+```bash
+# Spawn agents using MCP
+mcp__claude-flow__agent_spawn {
+  "type": "researcher",
+  "capabilities": ["web_search", "analysis"]
+}
+
+# Orchestrate parallel tasks
+mcp__claude-flow__task_orchestrate {
+  "task": "Analyze codebase for improvements",
+  "strategy": "parallel",
+  "maxAgents": 5
+}
+
+# Store in persistent memory
+mcp__claude-flow__memory_usage {
+  "action": "store",
+  "key": "project/decisions/auth",
+  "value": "JWT with 15min refresh",
+  "namespace": "architecture"
+}
+
+# Create automated workflow
+mcp__claude-flow__workflow_create {
+  "name": "test-and-deploy",
+  "steps": ["test", "build", "deploy"]
+}
+```
+
+### MCP Performance Benefits
+- 🚀 2.8-4.4x speed improvement
+- 📉 32.3% token reduction
+- 🎯 84.8% SWE-Bench solve rate
+- ⚡ WASM neural processing
 
 **Pro tip**: Save your favorite prompts as snippets in your IDE for instant access!

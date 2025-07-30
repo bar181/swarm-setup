@@ -15,6 +15,10 @@ project/
 │   ├── OPTIMAL_SWARM_WORKFLOW.md           # Complete execution methodology
 │   ├── DEVELOPER_CHEATSHEET.md             # Quick commands reference
 │   ├── AGENT_CREATION_GUIDE.md             # Custom agent templates
+│   ├── scripts/                            # Utility scripts
+│   │   └── detect-mcp-candidates.sh        # Find MCP opportunities
+│   ├── templates/                          # Reusable templates
+│   │   └── MODULE_README_TEMPLATE.md       # For AI-optimized docs
 │   └── agents/                             # Custom agent definitions
 ├── docs/phases/                            # Research & planning artifacts
 ├── .swarm/                                 # Claude Flow memory (SQLite)
@@ -38,17 +42,23 @@ Our approach replaces Claude Flow's default agents with optimized custom agents:
 
 ## 🛠️ Claude Flow Integration
 
-### MCP Tools Available
+### MCP Tools Available (87 Tools)
 ```bash
 # List all available MCP tools
-npx claude-flow@alpha mcp list --details
+npx claude-flow@alpha mcp tools --verbose
 
-# Common MCP integrations we use:
-- supabase: Database operations, auth, storage
-- playwright: E2E testing and browser automation
-- github: Issue/PR management
-- filesystem: File operations
-- web_search: Research capabilities
+# Categories with tool counts:
+- swarm: 12 tools for coordination
+- neural: 15 AI/ML tools
+- memory: 12 persistence tools
+- analysis: 13 monitoring tools
+- workflow: 11 automation tools
+- github: 8 integration tools
+- daa: 8 dynamic agent tools
+- system: 8 utility tools
+
+# Start MCP server
+npx claude-flow@alpha mcp start --auto-orchestrator --enable-neural
 ```
 
 ### Memory & Persistence (SQLite Database)

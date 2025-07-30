@@ -28,7 +28,8 @@ project/
 │       ├── tester.md
 │       ├── backend-coder.md
 │       ├── frontend-coder.md
-│       └── reviewer.md
+│       ├── reviewer.md
+│       └── modular-designer.md  # ✅ Created - Module organization specialist
 ├── docs/
 │   ├── phases/                             # Phase documentation
 │   │   └── phase-x/
@@ -68,6 +69,11 @@ project/
 - **MEMORY_SYSTEM_GUIDE.md** - SQLite-based persistent memory
 - **Key Feature**: Cross-session knowledge retention
 - **Use for**: Research findings, decisions, patterns, coordination
+
+### MCP Integration
+- **MCP_BEST_PRACTICES.md** - How to use 87 claude-flow MCP tools
+- **Key Feature**: Comprehensive tool ecosystem
+- **Use for**: Swarm coordination, neural training, workflow automation
 
 ### Architecture & Design
 - **MODULAR_DESIGN.md** - Modular architecture for SWARM projects
