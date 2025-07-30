@@ -52,7 +52,7 @@
 
 ### 8. **SWARM_BEST_PRACTICES.md**
 **Use Case:** Real-world lessons from your implementation
-- Cost comparison showing 184% savings
+- Practical benefits of custom agents
 - Why custom agents beat defaults
 - Proven patterns that work
 
@@ -134,7 +134,7 @@ These were superseded by the documents above:
 
 ## 💡 Key Insights
 
-- Custom agents are 184% more efficient than defaults
+- Custom agents provide better control than defaults
 - Always research before implementing
 - Use 6-persona planning for comprehensive coverage
 - TDD with guards prevents wasted effort

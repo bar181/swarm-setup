@@ -1,34 +1,30 @@
-# SWARM_BEST_PRACTICES.md - Real-World Lessons
+# SWARM_BEST_PRACTICES.md - Practical Lessons
 
-## 🚨 Critical Discovery: Avoid Anthropic Default Agents
+## 🚨 Key Discovery: Custom Agents Provide Better Control
 
-### Cost/Time Analysis from Real Project
+### Why Build Custom SWARM Agents
 
-| Agent Type | Hours | Cost | Quality | Recommendation |
-|------------|-------|------|---------|----------------|
-| **Custom SWARM Agents** | 446 | $66,900 | High | ✅ USE THIS |
-| **Anthropic Default Agents** | 1,265 | $189,750 | Poor | ❌ AVOID |
-| **Difference** | +819 (+184%) | +$122,850 | Worse | 🚨 |
+Custom agents offer several advantages over generic defaults:
 
-## 📊 Why Custom SWARM Agents Win
+## 📊 Benefits of Custom SWARM Agents
 
-### 1. Performance
-- **2.8x faster** execution time
-- **Better quality** outputs
-- **Predictable** behavior
-- **Lower token usage**
+### 1. Predictable Behavior
+- **Tailored to your project** requirements
+- **Consistent output** patterns
+- **Clear documentation** of capabilities
+- **Defined scope** and boundaries
 
-### 2. Cost Efficiency  
-- **$275/hour saved** on average
-- **184% cost reduction**
-- **More accurate estimates**
-- **No surprise overruns**
+### 2. Development Efficiency  
+- **Parallel execution** of tasks
+- **Focused responsibilities** per agent
+- **Reusable patterns** across projects
+- **Streamlined workflows**
 
-### 3. Quality
-- **Follow YOUR standards**
-- **Consistent patterns**
-- **Better test coverage**
-- **Fewer revisions needed**
+### 3. Quality Control
+- **Enforce project standards** consistently
+- **Implement specific patterns** you need
+- **Comprehensive test coverage** built-in
+- **Reduce revision cycles** through clarity
 
 ## 🛠️ Building Effective SWARM Agents
 
@@ -119,19 +115,19 @@ Each improves on previous work
 
 ## 🎯 Key Takeaways
 
-1. **Custom SWARM agents are 184% more efficient**
-2. **Anthropic default agents waste time and money**
-3. **Build agents specific to YOUR project**
-4. **Use Claude Flow for infrastructure, not agents**
-5. **Focus on clear, specific agent instructions**
+1. **Custom SWARM agents provide better control and predictability**
+2. **Build agents specific to YOUR project needs**
+3. **Use Claude Flow for infrastructure support**
+4. **Focus on clear, specific agent instructions**
+5. **Leverage parallel execution for efficiency**
 
-## 📈 Metrics That Matter
+## 📈 Metrics to Track
 
-Track these for your SWARM:
-- **Hours per feature** (aim for SWARM baseline)
-- **Cost per feature** (should be ~50% of defaults)
-- **Revision cycles** (fewer with good agents)
-- **Test coverage** (higher with focused agents)
+Monitor these aspects of your SWARM:
+- **Task completion time** per feature
+- **Test coverage** percentage
+- **Revision cycles** needed
+- **Agent coordination** effectiveness
 
 ## 🚀 Starting Your SWARM
 
@@ -153,8 +149,8 @@ create_custom_agent "reviewer" "YOUR review criteria"
 # Should be significantly faster/cheaper than defaults
 ```
 
-## 🏆 Success Story
+## 🏆 Key Takeaway
 
-"We switched from Anthropic default agents to custom SWARM agents and saved $122,850 on a single project while delivering better quality code in less than half the time."
+Custom SWARM agents provide better control, predictability, and alignment with your specific project needs compared to generic default agents.
 
 The lesson is clear: **Invest time in building YOUR agents, not using generic ones.**

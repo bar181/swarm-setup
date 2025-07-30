@@ -9,7 +9,7 @@ project/
 │   ├── OPTIMAL_SWARM_WORKFLOW.md           # Master execution guide
 │   ├── SWARM_EXECUTION_GUIDE.md            # Detailed step-by-step
 │   ├── DEVELOPER_CHEATSHEET.md             # Quick reference
-│   ├── SWARM_BEST_PRACTICES.md             # Real-world lessons (184% savings)
+│   ├── SWARM_BEST_PRACTICES.md             # Real-world lessons and patterns
 │   ├── AGENT_CREATION_GUIDE.md             # How to build custom agents
 │   ├── CLAUDE_MODEL_REFERENCE.md           # Sonnet vs Opus selection
 │   ├── PHASE_ORCHESTRATION.md              # Research-first methodology
@@ -48,7 +48,7 @@ project/
 - **OPTIMAL_SWARM_WORKFLOW.md** - Complete guide from requirements to deployment
 - **SWARM_EXECUTION_GUIDE.md** - Explicit instructions for AI execution
 - **DEVELOPER_CHEATSHEET.md** - Daily quick reference and prompts
-- **SWARM_BEST_PRACTICES.md** - Proven patterns with 184% cost savings
+- **SWARM_BEST_PRACTICES.md** - Proven patterns for efficient development
 
 ### Agent Management
 - **AGENT_CREATION_GUIDE.md** - Build custom agents, avoid defaults
@@ -98,7 +98,7 @@ Think harder: spawn 6 personas to create comprehensive GitHub issue
 
 ## 💡 Key Principles
 
-1. **Custom agents are 184% more efficient** than defaults
+1. **Custom agents provide better control and predictability** than defaults
 2. **Research first** - 30 minutes saves days of rework
 3. **6-persona planning** - Comprehensive coverage
 4. **TDD always** - Tests before code

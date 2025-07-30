@@ -2,7 +2,7 @@
 
 ## 🎯 Project Configuration
 
-This project uses **custom SWARM agents** with Claude Flow infrastructure. Our methodology is **184% more efficient** than default agents.
+This project uses **custom SWARM agents** with Claude Flow infrastructure, emphasizing parallel execution, modular development, and research-first methodology.
 
 **IMPORTANT**: Read `.claude/claude.md` for complete detailed instructions. This file provides essential configuration for Claude Code to understand the project.
 
@@ -148,11 +148,12 @@ The `.claude/commands/` directory contains Claude Flow defaults. **These should 
 5. **ALWAYS execute operations in parallel** - One message, many operations
 6. **ALWAYS follow existing patterns** - Check codebase first
 
-## 🎯 Success Metrics
+## 🎯 Key Benefits
 
-- Custom agents: 446 hours / $66,900 ✅
-- Default agents: 1,265 hours / $189,750 ❌
-- Savings: **184% efficiency gain**
+- **Parallel Execution**: Multiple agents work simultaneously
+- **Modular Development**: Clear component boundaries
+- **Research-First**: Thorough investigation before implementation
+- **TDD Methodology**: Tests drive development quality
 
 ---
 
