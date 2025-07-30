@@ -51,27 +51,43 @@ Optimized for modern web development with:
 ## 📁 Repository Structure
 
 ```
-.claude/
-├── README.md                           # You are here
-├── ARTIFACTS_INDEX.md                  # Complete documentation index
-├── guides/                             # Core workflow documentation
-│   ├── OPTIMAL_SWARM_WORKFLOW.md       # Master execution guide
-│   ├── SWARM_EXECUTION_GUIDE.md        # Step-by-step instructions
-│   ├── DEVELOPER_CHEATSHEET.md         # Quick reference for daily use
-│   └── SWARM_BEST_PRACTICES.md         # Lessons from production
-├── agent-management/                   # Agent configuration guides
-│   ├── AGENT_CREATION_GUIDE.md         # Build custom agents
-│   ├── CLAUDE_MODEL_REFERENCE.md       # Sonnet vs Opus selection
-│   └── claude-flow-agents-analysis.md  # Which defaults to avoid
-├── planning/                           # Project planning tools
-│   ├── PHASE_ORCHESTRATION.md          # Research-first approach
-│   └── EPIC_BREAKDOWN_EXAMPLES.md      # Large project patterns
-└── agents/                             # Your custom agents go here
-    ├── researcher.md
-    ├── planner.md
-    ├── tester.md
-    ├── coder.md
-    └── reviewer.md
+project/
+├── .claude/
+│   ├── CLAUDE.md                           # This file
+│   ├── OPTIMAL_SWARM_WORKFLOW.md           # Master execution guide
+│   ├── SWARM_EXECUTION_GUIDE.md            # Detailed step-by-step
+│   ├── DEVELOPER_CHEATSHEET.md             # Quick reference
+│   ├── SWARM_BEST_PRACTICES.md             # Real-world lessons (184% savings)
+│   ├── AGENT_CREATION_GUIDE.md             # How to build custom agents
+│   ├── CLAUDE_MODEL_REFERENCE.md           # Sonnet vs Opus selection
+│   ├── PHASE_ORCHESTRATION.md              # Research-first methodology
+│   ├── EPIC_BREAKDOWN_EXAMPLES.md          # Large project patterns
+│   ├── claude-flow-agents-analysis.md      # Which defaults to avoid
+│   └── agents/                             # Agent definitions
+│       ├── researcher.md
+│       ├── epic-planner.md
+│       ├── planner.md
+│       ├── product-owner.md
+│       ├── project-manager.md
+│       ├── senior-developer.md
+│       ├── test-writer.md
+│       ├── frontend-expert.md
+│       ├── security-expert.md
+│       ├── tester.md
+│       ├── backend-coder.md
+│       ├── frontend-coder.md
+│       └── reviewer.md
+├── docs/
+│   ├── phases/                             # Phase documentation
+│   │   └── phase-x/
+│   │       ├── research/                   # Research findings
+│   │       ├── issues/                     # Generated GitHub issues
+│   │       └── implementation/             # Code artifacts
+│   └── epics/                              # Epic breakdowns
+└── .github/
+    └── ISSUE_TEMPLATE/
+        ├── swarm-epic.yml
+        └── swarm-task.yml
 ```
 
 ## 🚀 Quick Start

@@ -1,0 +1,1014 @@
+# SWARM_EXECUTION_GUIDE.md - Optimal Instructions for Claude Code Swarm Execution
+
+## 🎯 Purpose
+
+This guide provides explicit instructions for Claude Code to execute swarm-based development with maximum effectiveness. Follow these steps precisely when implementing any phase or feature.
+
+## 📋 Pre-Execution Checklist
+
+Before starting ANY task, verify:
+```bash
+# 1. Check project structure
+test -d "/docs" || echo "ERROR: /docs directory missing"
+test -f ".claude/CLAUDE.md" || echo "ERROR: CLAUDE.md missing"
+test -d ".claude/agents" || mkdir -p .claude/agents
+
+# 2. Verify GitHub CLI
+gh auth status || echo "ERROR: GitHub CLI not authenticated"
+
+# 3. Check Claude Flow
+npx claude-flow@alpha --version || echo "ERROR: Claude Flow not installed"
+
+# 4. Verify MCP tools
+npx claude-flow@alpha mcp list || echo "ERROR: MCP tools unavailable"
+```
+
+## 🔍 Phase 1: Comprehensive Research Protocol
+
+### 1.1 Research Agent Configuration
+
+```yaml
+# ALWAYS use this exact configuration for research
+@researcher with configuration:
+  context_budget: 100000  # Maximum for thorough research
+  tools: [web_search, file_read, file_write, mcp_list]
+  parallel_searches: 5
+  output_format: "structured_markdown"
+  save_path: "/docs/phases/{phase_name}/research/"
+```
+
+### 1.2 Research Execution Steps
+
+```bash
+# EXECUTE IN THIS EXACT ORDER:
+
+# Step 1: Technology Stack Research
+@researcher execute parallel research:
+1. "Latest {PRIMARY_TECHNOLOGY} best practices 2025" → save to best-practices.md
+2. "OpenAI API gpt-4o pricing models documentation" → save to openai-current.md
+3. "{FEATURE_TYPE} security vulnerabilities OWASP" → save to security-requirements.md
+4. "{TECHNOLOGY} performance benchmarks" → save to performance-targets.md
+5. "Production {FEATURE_TYPE} architecture patterns" → save to architecture-patterns.md
+
+# Step 2: Internal Codebase Analysis
+@researcher analyze existing codebase:
+- Search pattern: "similar to {FEATURE_NAME}" in /src
+- Extract: design patterns, naming conventions, test patterns
+- Output: /docs/phases/{phase_name}/research/codebase-analysis.md
+
+# Step 3: MCP Tool Discovery
+@researcher execute:
+npx claude-flow@alpha mcp list --category all --format json > /docs/phases/{phase_name}/research/available-mcp-tools.json
+npx claude-flow@alpha mcp examples --tools "supabase,playwright,github" > /docs/phases/{phase_name}/research/mcp-examples.md
+
+# Step 4: Cost Analysis
+@researcher calculate implementation costs:
+- Estimate token usage per agent
+- Calculate using: gpt-4o ($2.50/1M), gpt-4o-mini ($0.15/1M)
+- Output: /docs/phases/{phase_name}/research/cost-estimate.md
+```
+
+### 1.3 Research Validation
+
+```python
+# Research completeness check (MUST PASS before proceeding)
+required_files = [
+    "best-practices.md",
+    "openai-current.md", 
+    "security-requirements.md",
+    "performance-targets.md",
+    "architecture-patterns.md",
+    "codebase-analysis.md",
+    "available-mcp-tools.json",
+    "mcp-examples.md",
+    "cost-estimate.md"
+]
+
+for file in required_files:
+    path = f"/docs/phases/{phase_name}/research/{file}"
+    assert os.path.exists(path), f"Missing required research: {file}"
+    assert os.path.getsize(path) > 100, f"Insufficient research in: {file}"
+```
+
+## 🏗️ Phase 2: Epic and Issue Creation
+
+### 2.1 Epic Analysis
+
+```bash
+# Determine if feature requires epic (multiple issues)
+@planner analyze scope:
+if feature_complexity > "3 days" OR sub_features > 3:
+    create_epic = True
+    epic_size = calculate_epic_decomposition()
+else:
+    create_epic = False
+    single_issue = True
+```
+
+### 2.2 Epic Creation (if required)
+
+```bash
+# Create epic with structured format
+@planner create epic using GitHub CLI:
+
+gh issue create \
+  --title "[EPIC] {FEATURE_NAME}" \
+  --label "epic,swarm" \
+  --body "$(cat << 'EOF'
+# Epic: {FEATURE_NAME}
+
+## 🎯 Overview
+{High-level description incorporating research findings}
+
+## 📊 Business Value
+- User Impact: {from product-owner research}
+- Revenue Impact: {estimated value}
+- Strategic Alignment: {company goals}
+
+## 🏗️ Technical Architecture
+\`\`\`mermaid
+{Architecture diagram from research}
+\`\`\`
+
+## 📋 Breakdown (Sub-Issues)
+1. [ ] #{ISSUE_1_NUMBER} - {Component 1}
+2. [ ] #{ISSUE_2_NUMBER} - {Component 2}  
+3. [ ] #{ISSUE_3_NUMBER} - {Component 3}
+
+## 💰 Resource Allocation
+| Component | Agents | Token Budget | Time Estimate |
+|-----------|--------|--------------|---------------|
+| {Comp 1}  | 5      | 300k         | 2 days        |
+| {Comp 2}  | 3      | 200k         | 1 day         |
+| {Comp 3}  | 4      | 250k         | 1.5 days      |
+
+## 📈 Success Metrics
+- Performance: {from research/performance-targets.md}
+- Security: All OWASP Top 10 addressed
+- Test Coverage: >95%
+- Cost: <$15 total AI spend
+EOF
+)"
+```
+
+### 2.3 Individual Issue Creation
+
+```bash
+# PARALLEL EXECUTION: Spawn 6 personas simultaneously
+@planner coordinate parallel persona execution:
+
+parallel --jobs 6 << 'EOF'
+@product-owner generate:user-stories > /tmp/swarm/user-stories.md
+@project-manager generate:timeline-dependencies > /tmp/swarm/timeline.md  
+@senior-developer generate:technical-design > /tmp/swarm/technical.md
+@test-writer generate:test-specifications > /tmp/swarm/tests.md
+@frontend-expert generate:ui-architecture > /tmp/swarm/frontend.md
+@security-expert generate:threat-model > /tmp/swarm/security.md
+EOF
+
+# Wait for all personas to complete
+wait
+
+# Synthesize into single issue
+@planner merge all outputs into comprehensive issue:
+```
+
+### 2.4 GitHub Issue Template Execution
+
+```bash
+# Create the comprehensive issue
+gh issue create \
+  --repo {OWNER}/{REPO} \
+  --title "[SWARM] {FEATURE_NAME}" \
+  --label "swarm,phase-{X},tdd" \
+  --assignee "@me" \
+  --body "$(cat << 'EOF'
+# {FEATURE_NAME} - Comprehensive Implementation Specification
+
+## 🤖 Swarm Configuration
+\`\`\`yaml
+execution_mode: parallel_tdd
+total_agents: 8
+max_concurrent: 5
+token_budget: 500000
+cost_limit: $10.00
+coordination: queen_hierarchical
+\`\`\`
+
+## 📊 Business Context [@product-owner]
+### User Stories
+$(cat /tmp/swarm/user-stories.md)
+
+### Success Metrics
+- Metric 1: {specific measurable outcome}
+- Metric 2: {specific measurable outcome}
+- Business KPI: {revenue/engagement metric}
+
+## 📅 Project Timeline [@project-manager]
+$(cat /tmp/swarm/timeline.md)
+
+### Critical Path
+\`\`\`mermaid
+gantt
+    title Implementation Timeline
+    section Phase 1
+    Research           :done, res, 2025-01-29, 1d
+    Issue Creation     :active, iss, after res, 1d
+    section Phase 2
+    Test Development   :test, after iss, 2d
+    Implementation     :impl, after test, 3d
+    Review & Deploy    :rev, after impl, 1d
+\`\`\`
+
+## 🏗️ Technical Implementation [@senior-developer]
+$(cat /tmp/swarm/technical.md)
+
+### Database Schema
+\`\`\`sql
+-- ACTUAL SQL, not placeholders
+CREATE TABLE {table_name} (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    {actual_columns},
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indexes
+CREATE INDEX idx_{table}_user_id ON {table_name}(user_id);
+CREATE INDEX idx_{table}_created ON {table_name}(created_at DESC);
+
+-- RLS Policies  
+ALTER TABLE {table_name} ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "users_own_data" ON {table_name}
+    FOR ALL USING (auth.uid() = user_id);
+\`\`\`
+
+### API Implementation
+\`\`\`python
+# ACTUAL IMPLEMENTATION CODE
+from fastapi import APIRouter, Depends, HTTPException
+from typing import List, Optional
+import asyncpg
+
+router = APIRouter(prefix="/api/v1/{feature}")
+
+@router.post("/", response_model={Feature}Response)
+async def create_{feature}(
+    request: {Feature}Request,
+    current_user: User = Depends(get_current_user),
+    db: asyncpg.Pool = Depends(get_db)
+):
+    """
+    Create new {feature} with full validation.
+    
+    Rate limit: 10 requests per minute
+    Required permissions: {feature}.create
+    """
+    # Input validation
+    if not request.validate_business_rules():
+        raise HTTPException(400, "Business validation failed")
+    
+    # Check permissions
+    if not await check_permission(current_user.id, "{feature}.create"):
+        raise HTTPException(403, "Insufficient permissions")
+    
+    # Execute in transaction
+    async with db.acquire() as conn:
+        async with conn.transaction():
+            # Create record
+            result = await conn.fetchrow("""
+                INSERT INTO {table_name} (user_id, data, metadata)
+                VALUES ($1, $2, $3)
+                RETURNING *
+            """, current_user.id, request.dict(), {"version": "1.0"})
+            
+            # Trigger async events
+            await publish_event("{feature}.created", result)
+            
+    return {Feature}Response(**result)
+\`\`\`
+
+### Integration with OpenAI
+\`\`\`python
+# Latest OpenAI integration (from research)
+from openai import AsyncOpenAI
+
+client = AsyncOpenAI(
+    api_key=settings.OPENAI_API_KEY,
+    default_headers={"X-Service": "feature-service"}
+)
+
+async def enhance_with_ai(content: str) -> str:
+    response = await client.chat.completions.create(
+        model="gpt-4o-mini",  # $0.15/1M tokens for efficiency
+        messages=[
+            {"role": "system", "content": FEATURE_PROMPT},
+            {"role": "user", "content": content}
+        ],
+        temperature=0.7,
+        max_tokens=2000,
+        timeout=30.0
+    )
+    return response.choices[0].message.content
+\`\`\`
+
+## 🧪 Test Specifications [@test-writer]
+$(cat /tmp/swarm/tests.md)
+
+### Unit Tests (Complete Implementation)
+\`\`\`python
+# tests/test_{feature}.py
+import pytest
+from httpx import AsyncClient
+from unittest.mock import Mock, AsyncMock, patch
+
+class Test{Feature}API:
+    \"\"\"Comprehensive test suite for {feature} functionality.\"\"\"
+    
+    @pytest.fixture
+    async def auth_client(self, client: AsyncClient):
+        \"\"\"Authenticated test client.\"\"\"
+        token = create_test_jwt(user_id="test-user-123")
+        client.headers["Authorization"] = f"Bearer {token}"
+        return client
+    
+    @pytest.mark.asyncio
+    async def test_create_{feature}_success(self, auth_client):
+        \"\"\"Test successful {feature} creation.\"\"\"
+        payload = {
+            "name": "Test Feature",
+            "description": "Test description",
+            "settings": {"key": "value"}
+        }
+        
+        response = await auth_client.post("/api/v1/{feature}/", json=payload)
+        
+        assert response.status_code == 201
+        data = response.json()
+        assert data["id"] is not None
+        assert data["name"] == payload["name"]
+        assert data["user_id"] == "test-user-123"
+    
+    @pytest.mark.asyncio
+    async def test_create_{feature}_validation_error(self, auth_client):
+        \"\"\"Test validation errors are handled correctly.\"\"\"
+        payload = {"invalid": "data"}
+        
+        response = await auth_client.post("/api/v1/{feature}/", json=payload)
+        
+        assert response.status_code == 422
+        assert "validation_error" in response.json()["detail"]
+    
+    @pytest.mark.asyncio
+    async def test_rate_limiting(self, auth_client):
+        \"\"\"Test rate limiting is enforced.\"\"\"
+        # Make 11 requests (limit is 10)
+        for i in range(11):
+            response = await auth_client.post(
+                "/api/v1/{feature}/",
+                json={"name": f"Test {i}"}
+            )
+            if i < 10:
+                assert response.status_code == 201
+            else:
+                assert response.status_code == 429
+                assert "rate_limit_exceeded" in response.json()["detail"]
+\`\`\`
+
+### E2E Tests (Playwright)
+\`\`\`javascript
+// tests/e2e/{feature}.spec.ts
+import { test, expect } from '@playwright/test';
+
+test.describe('{Feature} E2E Tests', () => {
+  test.beforeEach(async ({ page }) => {
+    // Login
+    await page.goto('/login');
+    await page.fill('[data-testid="email"]', 'test@example.com');
+    await page.fill('[data-testid="password"]', 'Test123!');
+    await page.click('[data-testid="login-button"]');
+    await expect(page).toHaveURL('/dashboard');
+  });
+
+  test('complete {feature} workflow', async ({ page }) => {
+    // Navigate to feature
+    await page.click('[data-testid="nav-{feature}"]');
+    await expect(page).toHaveURL('/{feature}');
+    
+    // Create new item
+    await page.click('[data-testid="create-button"]');
+    await page.fill('[data-testid="name-input"]', 'Test Feature');
+    await page.fill('[data-testid="description"]', 'E2E test description');
+    
+    // Submit and verify
+    await page.click('[data-testid="submit-button"]');
+    
+    // Wait for success message
+    await expect(page.locator('[data-testid="success-toast"]')).toBeVisible();
+    
+    // Verify item appears in list
+    await expect(page.locator('text=Test Feature')).toBeVisible();
+  });
+
+  test('handles errors gracefully', async ({ page }) => {
+    await page.route('/api/v1/{feature}/*', route => 
+      route.fulfill({ status: 500, body: 'Server error' })
+    );
+    
+    await page.goto('/{feature}');
+    await page.click('[data-testid="create-button"]');
+    
+    await expect(page.locator('[data-testid="error-message"]'))
+      .toContainText('Something went wrong');
+  });
+});
+\`\`\`
+
+## 🎨 Frontend Implementation [@frontend-expert]
+$(cat /tmp/swarm/frontend.md)
+
+### React Component Architecture
+\`\`\`typescript
+// components/{Feature}/{Feature}Container.tsx
+import React, { useState, useEffect } from 'react';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { use{Feature}Store } from '@/stores/{feature}Store';
+import { {Feature}List } from './{Feature}List';
+import { {Feature}Detail } from './{Feature}Detail';
+import { Create{Feature}Modal } from './Create{Feature}Modal';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+
+export const {Feature}Container: React.FC = () => {
+  const { 
+    selectedId, 
+    setSelectedId,
+    filters,
+    setFilters 
+  } = use{Feature}Store();
+  
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['{feature}', filters],
+    queryFn: () => api.{feature}.list(filters),
+    staleTime: 30000,
+    refetchOnWindowFocus: false
+  });
+  
+  const createMutation = useMutation({
+    mutationFn: api.{feature}.create,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['{feature}']);
+      toast.success('{Feature} created successfully');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    }
+  });
+  
+  if (error) return <ErrorBoundary error={error} />;
+  
+  return (
+    <div className="grid grid-cols-12 gap-6">
+      <div className="col-span-4">
+        <{Feature}List
+          items={data?.items || []}
+          loading={isLoading}
+          onSelect={setSelectedId}
+          selectedId={selectedId}
+        />
+      </div>
+      <div className="col-span-8">
+        {selectedId ? (
+          <{Feature}Detail id={selectedId} />
+        ) : (
+          <EmptyState 
+            message="Select an item to view details"
+            action={{
+              label: "Create New",
+              onClick: () => setCreateModalOpen(true)
+            }}
+          />
+        )}
+      </div>
+      <Create{Feature}Modal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        onSubmit={createMutation.mutate}
+        loading={createMutation.isLoading}
+      />
+    </div>
+  );
+};
+\`\`\`
+
+### State Management (Zustand)
+\`\`\`typescript
+// stores/{feature}Store.ts
+import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
+
+interface {Feature}State {
+  items: {Feature}[];
+  selectedId: string | null;
+  filters: {Feature}Filters;
+  loading: boolean;
+  error: Error | null;
+  
+  // Actions
+  setSelectedId: (id: string | null) => void;
+  setFilters: (filters: Partial<{Feature}Filters>) => void;
+  addItem: (item: {Feature}) => void;
+  updateItem: (id: string, updates: Partial<{Feature}>) => void;
+  removeItem: (id: string) => void;
+}
+
+export const use{Feature}Store = create<{Feature}State>()(
+  devtools(
+    persist(
+      immer((set) => ({
+        items: [],
+        selectedId: null,
+        filters: { status: 'active' },
+        loading: false,
+        error: null,
+        
+        setSelectedId: (id) => set((state) => {
+          state.selectedId = id;
+        }),
+        
+        setFilters: (filters) => set((state) => {
+          state.filters = { ...state.filters, ...filters };
+        }),
+        
+        addItem: (item) => set((state) => {
+          state.items.push(item);
+        }),
+        
+        updateItem: (id, updates) => set((state) => {
+          const index = state.items.findIndex(i => i.id === id);
+          if (index >= 0) {
+            state.items[index] = { ...state.items[index], ...updates };
+          }
+        }),
+        
+        removeItem: (id) => set((state) => {
+          state.items = state.items.filter(i => i.id !== id);
+          if (state.selectedId === id) {
+            state.selectedId = null;
+          }
+        })
+      })),
+      { name: '{feature}-store' }
+    )
+  )
+);
+\`\`\`
+
+## 🔒 Security Implementation [@security-expert]
+$(cat /tmp/swarm/security.md)
+
+### Security Checklist
+- [x] Input validation on all endpoints
+- [x] SQL injection prevention (parameterized queries)
+- [x] XSS prevention (React auto-escaping + CSP headers)
+- [x] CSRF protection (double-submit cookies)
+- [x] Rate limiting (10 req/min on writes)
+- [x] Authentication required (JWT with refresh tokens)
+- [x] Authorization checks (RBAC with permissions)
+- [x] Audit logging (all state changes)
+- [x] Encryption at rest (AES-256)
+- [x] HTTPS only (HSTS enabled)
+
+### Security Implementation
+\`\`\`python
+# security/{feature}_security.py
+from functools import wraps
+import hashlib
+import hmac
+
+def validate_input(schema):
+    \"\"\"Decorator for input validation.\"\"\"
+    def decorator(func):
+        @wraps(func)
+        async def wrapper(request, *args, **kwargs):
+            try:
+                validated = schema.parse(request)
+            except ValidationError as e:
+                raise HTTPException(422, detail=e.errors())
+            return await func(validated, *args, **kwargs)
+        return wrapper
+    return decorator
+
+def require_permission(permission: str):
+    \"\"\"Decorator for permission checks.\"\"\"
+    def decorator(func):
+        @wraps(func)
+        async def wrapper(*args, current_user: User, **kwargs):
+            if not await check_permission(current_user.id, permission):
+                raise HTTPException(403, "Insufficient permissions")
+            return await func(*args, current_user=current_user, **kwargs)
+        return wrapper
+    return decorator
+
+def rate_limit(requests: int, window: int):
+    \"\"\"Rate limiting decorator.\"\"\"
+    def decorator(func):
+        @wraps(func)
+        async def wrapper(*args, current_user: User, **kwargs):
+            key = f"rate_limit:{func.__name__}:{current_user.id}"
+            if await redis.incr(key) > requests:
+                raise HTTPException(429, "Rate limit exceeded")
+            await redis.expire(key, window)
+            return await func(*args, current_user=current_user, **kwargs)
+        return wrapper
+    return decorator
+\`\`\`
+
+## 🔧 MCP Tool Configuration
+\`\`\`yaml
+# Required MCP tools for this feature
+mcp_tools:
+  supabase:
+    operations: [create_table, create_policy, create_function]
+    permissions: read_write
+    agents: [coder, tester]
+  
+  playwright:
+    operations: [browser_automation, screenshot, test_runner]
+    permissions: execute
+    agents: [tester]
+  
+  github:
+    operations: [create_issue, update_issue, create_pr]
+    permissions: write
+    agents: [planner, reviewer]
+\`\`\`
+
+## 🤖 Agent Execution Instructions
+
+### Parallel Execution Groups
+\`\`\`yaml
+execution_groups:
+  group_1_research:  # Runs first
+    agents: [researcher]
+    parallel: false
+    timeout: 1800s
+    
+  group_2_planning:  # Runs second
+    agents: [product-owner, project-manager, architect, security-expert]
+    parallel: true
+    timeout: 900s
+    
+  group_3_implementation:  # Runs third
+    agents: [tester]  # MUST complete before group_4
+    parallel: false
+    timeout: 1200s
+    
+  group_4_coding:  # Runs fourth
+    agents: [backend-coder, frontend-coder]
+    parallel: true
+    timeout: 2400s
+    dependencies: [group_3_implementation]
+    
+  group_5_review:  # Runs last
+    agents: [reviewer, security-auditor]
+    parallel: true
+    timeout: 600s
+    dependencies: [group_4_coding]
+\`\`\`
+
+## 📊 Success Metrics
+
+### Automated Validation
+\`\`\`python
+# This runs automatically after implementation
+validation_results = {
+    "tests_passing": pytest.main(["-x", "tests/"]) == 0,
+    "coverage": get_coverage_percentage() >= 95,
+    "security_scan": run_security_scan() == "PASS",
+    "performance": response_time_p95 < 100,  # ms
+    "code_quality": pylint_score >= 9.0,
+    "type_safety": mypy_errors == 0,
+}
+
+assert all(validation_results.values()), f"Validation failed: {validation_results}"
+\`\`\`
+
+## ✅ Definition of Done
+- [ ] All tests passing (unit, integration, E2E)
+- [ ] Code coverage >95%
+- [ ] Security scan passed
+- [ ] Performance benchmarks met
+- [ ] Code review approved
+- [ ] Documentation updated
+- [ ] Deployment successful
+- [ ] Monitoring configured
+- [ ] Feature flag enabled
+
+## 💰 Budget Tracking
+| Agent | Allocated | Used | Remaining |
+|-------|-----------|------|-----------|
+| Research | 100k | {auto} | {auto} |
+| Planning | 200k | {auto} | {auto} |
+| Testing | 150k | {auto} | {auto} |
+| Coding | 300k | {auto} | {auto} |
+| Review | 50k | {auto} | {auto} |
+| **Total** | **800k** | **{auto}** | **{auto}** |
+
+Cost: ${estimated_cost} (Target: <$10.00)
+EOF
+)"
+
+# Capture the issue number
+ISSUE_NUMBER=$(gh issue list --limit 1 --json number --jq '.[0].number')
+echo "Created issue #$ISSUE_NUMBER"
+
+# If part of epic, update epic
+if [ "$EPIC_NUMBER" ]; then
+    gh issue edit $EPIC_NUMBER --body "$(gh issue view $EPIC_NUMBER --json body -q .body | sed "s/\[ \] #$ISSUE_NUMBER/\[x\] #$ISSUE_NUMBER/g")"
+fi
+```
+
+## 🧪 Phase 3: TDD Implementation Protocol
+
+### 3.1 Test Development Phase
+
+```bash
+# CRITICAL: Tests MUST be created before ANY implementation
+@tester configure:
+  tools: [file_write, file_read, bash, playwright_mcp]
+  context_budget: 150000
+  model: "gpt-4o-mini"  # Tests don't need expensive model
+  
+# Execute test creation
+@tester create comprehensive test suite:
+1. Read test specifications from issue #$ISSUE_NUMBER
+2. Create directory structure:
+   - tests/unit/test_{feature}.py
+   - tests/integration/test_{feature}_api.py  
+   - tests/e2e/{feature}.spec.ts
+3. Implement ALL tests from specification
+4. Run tests to confirm they FAIL (red phase)
+5. Commit tests with message: "test: add {feature} test suite (TDD red phase)"
+
+# Validation gate
+if ! pytest tests/ --tb=short | grep -q "FAILED"; then
+    echo "ERROR: Tests must fail before implementation"
+    exit 1
+fi
+```
+
+### 3.2 Parallel Implementation Phase
+
+```bash
+# Configure implementation agents
+@backend-coder configure:
+  tools: [file_write, file_read, bash, supabase_mcp]
+  context_budget: 200000
+  model: "gpt-4o"
+  constraints: "NEVER modify test files"
+
+@frontend-coder configure:
+  tools: [file_write, file_read, bash, npm]
+  context_budget: 150000
+  model: "gpt-4o"
+  constraints: "NEVER modify test files"
+
+# Parallel execution
+parallel --jobs 2 << 'EOF'
+@backend-coder implement backend to pass all tests in tests/unit/ and tests/integration/
+@frontend-coder implement frontend to pass all tests in tests/e2e/
+EOF
+
+# Continuous test monitoring
+while true; do
+    if pytest tests/ --tb=short -x; then
+        echo "All tests passing! Implementation complete."
+        break
+    fi
+    sleep 30
+done
+```
+
+### 3.3 Review and Optimization Phase
+
+```bash
+# Final review with multiple specialists
+@reviewer configure:
+  tools: [file_read, web_search]
+  focus: "code_quality,best_practices,maintainability"
+
+@security-auditor configure:
+  tools: [file_read, semgrep, owasp_scanner]
+  focus: "vulnerabilities,authentication,authorization"
+
+@performance-optimizer configure:
+  tools: [file_read, profiler, lighthouse]
+  focus: "response_time,memory_usage,bundle_size"
+
+# Execute reviews in parallel
+parallel --jobs 3 << 'EOF'
+@reviewer analyze code quality and suggest improvements
+@security-auditor run security scan and report vulnerabilities
+@performance-optimizer profile and optimize bottlenecks
+EOF
+
+# Apply review feedback
+@backend-coder apply review feedback while ensuring tests still pass
+@frontend-coder apply review feedback while ensuring tests still pass
+```
+
+## 📈 Swarm Performance Optimization
+
+### 3.4 Optimal Agent Configuration
+
+```yaml
+# Proven optimal configurations from benchmarks
+optimal_swarm_sizes:
+  small_feature:   # <1 day work
+    total_agents: 5
+    parallel_max: 3
+    token_budget: 200k
+    
+  medium_feature:  # 1-3 days work
+    total_agents: 8
+    parallel_max: 5
+    token_budget: 500k
+    
+  large_feature:   # 3-5 days work
+    total_agents: 12
+    parallel_max: 7
+    token_budget: 1M
+    
+  epic:           # >5 days work
+    total_agents: 20
+    parallel_max: 10
+    token_budget: 2M
+
+# Agent ratios for optimal results
+agent_distribution:
+  research: 10%      # 1-2 agents
+  planning: 20%      # 2-4 agents  
+  testing: 25%       # 2-5 agents
+  implementation: 30% # 3-6 agents
+  review: 15%        # 1-3 agents
+```
+
+### 3.5 Parallel Execution Best Practices
+
+```bash
+# Maximum parallelization pattern
+execute_swarm() {
+    local phase=$1
+    
+    case $phase in
+        "research")
+            # Sequential - research builds on itself
+            @researcher execute tasks sequentially
+            ;;
+            
+        "planning")
+            # Parallel - personas work independently
+            parallel -j 6 ::: \
+                "@product-owner create user stories" \
+                "@project-manager create timeline" \
+                "@architect design system" \
+                "@security-expert threat model" \
+                "@frontend-expert ui design" \
+                "@devops plan deployment"
+            ;;
+            
+        "implementation")
+            # Mixed - tests first, then parallel coding
+            @tester create all tests
+            wait
+            parallel -j 4 ::: \
+                "@backend-coder implement api" \
+                "@frontend-coder implement ui" \
+                "@integration-coder connect systems" \
+                "@devops setup ci/cd"
+            ;;
+            
+        "review")
+            # Parallel - independent reviews
+            parallel -j 3 ::: \
+                "@reviewer code quality" \
+                "@security-auditor vulnerabilities" \
+                "@performance-optimizer bottlenecks"
+            ;;
+    esac
+}
+```
+
+## 🎯 Success Patterns
+
+### Pattern 1: Research-Heavy Features
+
+```bash
+# For features requiring extensive research (AI, ML, new tech)
+RESEARCH_WEIGHT=0.4  # 40% of effort on research
+SWARM_CONFIG="research-heavy"
+
+@researcher spawn sub-researchers:
+  - @api-researcher: investigate all API options
+  - @security-researcher: deep dive on security implications
+  - @performance-researcher: benchmark similar solutions
+  - @cost-researcher: analyze operational costs
+```
+
+### Pattern 2: UI-Heavy Features
+
+```bash
+# For features with complex UI requirements
+UI_WEIGHT=0.5  # 50% of effort on frontend
+
+parallel --jobs 4 ::: \
+    "@ui-designer create figma mockups" \
+    "@accessibility-expert ensure WCAG compliance" \
+    "@responsive-expert mobile/tablet optimization" \
+    "@animation-expert micro-interactions"
+```
+
+### Pattern 3: Data-Heavy Features
+
+```bash
+# For features with complex data requirements
+DATA_WEIGHT=0.6  # 60% of effort on data layer
+
+@data-architect design:
+  - Schema optimization
+  - Index strategy  
+  - Partition strategy
+  - Backup/recovery plan
+  
+@data-engineer implement:
+  - Migrations
+  - Seed data
+  - Data pipelines
+  - Monitoring
+```
+
+## 📊 Metrics and Reporting
+
+```bash
+# Automatic metrics collection after each phase
+collect_metrics() {
+    local phase=$1
+    local start_time=$2
+    local end_time=$(date +%s)
+    local duration=$((end_time - start_time))
+    
+    # Collect metrics
+    local metrics=$(cat << EOF
+{
+  "phase": "$phase",
+  "duration_seconds": $duration,
+  "tokens_used": $(claude-flow report tokens --phase $phase),
+  "cost_usd": $(claude-flow report cost --phase $phase),
+  "agents_used": $(claude-flow report agents --phase $phase),
+  "files_created": $(git status --porcelain | wc -l),
+  "tests_added": $(find tests -name "*.py" -newer $start_time | wc -l),
+  "coverage_percent": $(pytest --cov --cov-report=json | jq .totals.percent_covered),
+  "issues_created": $(gh issue list --label "phase-$phase" --json number | jq length)
+}
+EOF
+)
+    
+    # Save metrics
+    echo $metrics > /docs/phases/$phase/metrics.json
+    
+    # Update dashboard
+    claude-flow metrics push $metrics
+}
+```
+
+## 🚀 Execution Checklist
+
+Before starting ANY feature:
+- [ ] Research phase completed with ALL required files
+- [ ] Cost estimate calculated and approved
+- [ ] Epic created if feature >3 days
+- [ ] All 6 personas have generated their sections
+- [ ] Comprehensive GitHub issue created with actual code
+- [ ] Test specifications include complete implementations
+- [ ] Security requirements explicitly defined
+- [ ] MCP tools configured and tested
+- [ ] Parallel execution plan defined
+- [ ] Success metrics automated
+
+## 🎖️ Quality Gates
+
+Each phase must pass before proceeding:
+
+1. **Research Gate**: All 9 research files present and >100 bytes each
+2. **Planning Gate**: Issue contains code snippets, not placeholders
+3. **Test Gate**: All tests fail before implementation starts
+4. **Implementation Gate**: 100% of tests passing
+5. **Review Gate**: No critical security/performance issues
+6. **Deployment Gate**: All metrics meet targets
+
+---
+
+**Remember**: This guide is for Claude Code to execute. Follow it precisely for optimal results. Research → Plan → Test → Code → Review → Deploy.
