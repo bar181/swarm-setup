@@ -32,6 +32,7 @@ Based on real project analysis:
 
 ### When to Use Claude Opus 4 (Complex Tasks Only)
 - **Complex coordination** (planner agent coordinating 6 personas)
+- **Epic decomposition** (epic-planner breaking down large projects)
 - **Complex implementation** (main coder agent)
 - **Architecture design** requiring deep reasoning
 - **ML/AI tasks** with complex algorithms

@@ -17,7 +17,7 @@ project/
 │   ├── claude-flow-agents-analysis.md      # Which defaults to avoid
 │   └── agents/                             # Agent definitions
 │       ├── researcher.md
-│       ├── epic-planner.md
+│       ├── epic-planner.md      # ✅ Created - Epic decomposition specialist
 │       ├── planner.md
 │       ├── product-owner.md
 │       ├── project-manager.md
@@ -58,6 +58,21 @@ project/
 ### Planning Tools
 - **PHASE_ORCHESTRATION.md** - Research-first, 6-persona approach
 - **EPIC_BREAKDOWN_EXAMPLES.md** - Decomposing large projects
+
+### Commands Reference
+- **COMMANDS_REFERENCE.md** - Guide to `.claude/commands/` directory
+- **⚠️ Important**: The `commands/` folder contains Claude Flow defaults - use as fallback only
+- **Always prefer** our custom documentation over default commands
+
+### Memory System
+- **MEMORY_SYSTEM_GUIDE.md** - SQLite-based persistent memory
+- **Key Feature**: Cross-session knowledge retention
+- **Use for**: Research findings, decisions, patterns, coordination
+
+### Architecture & Design
+- **MODULAR_DESIGN.md** - Modular architecture for SWARM projects
+- **Key Concepts**: Vertical slices, module independence, contracts
+- **Use for**: Structuring large projects into manageable modules
 
 ## 🚀 Quick Start
 

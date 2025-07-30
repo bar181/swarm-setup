@@ -63,6 +63,29 @@
 - Real user experiences and warnings
 - When to create new agents
 
+### 10. **COMMANDS_REFERENCE.md**
+**Use Case:** Guide to the `.claude/commands/` directory
+- Explains which default commands to avoid (SPARC, default swarms)
+- Identifies potentially useful commands (GitHub, memory, monitoring)
+- Emphasizes using custom documentation first
+- Provides fallback guidance when needed
+
+### 11. **MEMORY_SYSTEM_GUIDE.md**
+**Use Case:** Comprehensive guide to Claude Flow's SQLite memory system
+- Database schema and location (.swarm/memory.db)
+- MCP memory tools usage (store, retrieve, search)
+- Namespace organization strategy
+- Integration with custom SWARM agents
+- Best practices for persistent knowledge management
+
+### 12. **MODULAR_DESIGN.md**
+**Use Case:** Modular architecture principles for SWARM development
+- Vertical slice architecture with complete features
+- Module boundaries and independence
+- Agent-based parallel development
+- Contract-driven communication
+- Integration with SWARM workflow
+
 ## 🗂️ Repository Structure
 
 ```

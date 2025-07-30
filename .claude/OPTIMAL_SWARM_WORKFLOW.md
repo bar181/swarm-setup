@@ -86,6 +86,13 @@ def analyze_scope(feature):
 ├── security-matrix.md      # Vulnerabilities to prevent
 ├── codebase-patterns.md    # Existing conventions
 └── cost-estimate.md        # Token and dollar budgets
+
+# ALSO store key findings in memory for cross-session persistence
+@researcher store critical findings in SQLite memory:
+- Key: "research/$PHASE_NAME/summary"
+- Namespace: "research"
+- TTL: 30 days
+- Include: API versions, security requirements, best practices
 ```
 
 ### Step 3: Epic or Issue Decision

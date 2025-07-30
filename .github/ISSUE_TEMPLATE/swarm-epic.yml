@@ -1,0 +1,233 @@
+name: Swarm Epic
+description: Create an epic for multi-feature projects requiring coordinated development
+title: "[EPIC] "
+labels: [epic, swarm]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Epic Guidelines
+        Use this template for projects that:
+        - Require 3+ related features
+        - Take more than 3 days to complete
+        - Need coordination across multiple components
+        - Involve breaking changes or major architectural decisions
+
+  - type: input
+    id: epic-name
+    attributes:
+      label: Epic Name
+      description: Brief, descriptive name for this epic
+      placeholder: "User Authentication System"
+    validations:
+      required: true
+
+  - type: textarea
+    id: overview
+    attributes:
+      label: Epic Overview
+      description: High-level description of what this epic will achieve
+      placeholder: |
+        Build a complete authentication system including:
+        - User registration and login
+        - JWT token management
+        - Role-based access control
+        - Password reset functionality
+        - Social login integration
+    validations:
+      required: true
+
+  - type: textarea
+    id: business-value
+    attributes:
+      label: Business Value
+      description: Why this epic matters to users and the business
+      placeholder: |
+        - User Impact: Secure access to personalized features
+        - Revenue Impact: Enable premium user tiers
+        - Strategic Value: Foundation for user-based features
+        - Risk Mitigation: Compliance with security standards
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-approach
+    attributes:
+      label: Technical Architecture
+      description: High-level technical design and approach
+      placeholder: |
+        ```mermaid
+        graph TD
+          A[Client] -->|JWT| B[API Gateway]
+          B --> C[Auth Service]
+          C --> D[(User DB)]
+          C --> E[Token Store]
+        ```
+        
+        Technology choices:
+        - FastAPI for auth service
+        - Supabase for user storage
+        - Redis for token management
+        - React for frontend components
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature-breakdown
+    attributes:
+      label: Feature Breakdown
+      description: List of features/issues that comprise this epic
+      placeholder: |
+        ## Features (Each will be a separate issue):
+        
+        1. **User Registration & Profile** (2 days)
+           - Email/password registration
+           - Profile management
+           - Email verification
+           
+        2. **Authentication & Sessions** (3 days)
+           - Login/logout endpoints
+           - JWT token generation
+           - Refresh token mechanism
+           
+        3. **Authorization & Permissions** (2 days)
+           - Role-based access control
+           - Permission middleware
+           - Admin user management
+           
+        4. **Password Management** (1 day)
+           - Password reset flow
+           - Change password
+           - Password requirements
+           
+        5. **Social Login** (2 days)
+           - OAuth integration
+           - Google/GitHub providers
+           - Account linking
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies & Prerequisites
+      description: What needs to be in place before starting
+      placeholder: |
+        Internal Dependencies:
+        - Database schema design complete
+        - API structure defined
+        - Frontend routing setup
+        
+        External Dependencies:
+        - Supabase project created
+        - OAuth apps configured
+        - Email service setup
+        
+        Technical Requirements:
+        - Node.js 18+
+        - Python 3.11+
+        - PostgreSQL 15+
+    validations:
+      required: false
+
+  - type: textarea
+    id: resource-allocation
+    attributes:
+      label: Resource Allocation
+      description: Agent and token budget allocation
+      value: |
+        ## Swarm Configuration
+        
+        | Phase | Agents | Token Budget | Time Estimate |
+        |-------|--------|--------------|---------------|
+        | Research | 1 researcher | 100k | 4 hours |
+        | Planning | 6 personas | 300k | 8 hours |
+        | Feature 1 | 5 agents | 400k | 2 days |
+        | Feature 2 | 5 agents | 600k | 3 days |
+        | Feature 3 | 5 agents | 400k | 2 days |
+        | Feature 4 | 3 agents | 200k | 1 day |
+        | Feature 5 | 4 agents | 400k | 2 days |
+        | Integration | 4 agents | 300k | 1 day |
+        | **Total** | **~30 agents** | **2.7M tokens** | **11 days** |
+        
+        Estimated Cost: ~$25-30 (at current Claude rates)
+    validations:
+      required: true
+
+  - type: textarea
+    id: success-metrics
+    attributes:
+      label: Success Metrics
+      description: How we'll measure epic completion
+      placeholder: |
+        Functional Metrics:
+        - All authentication flows working
+        - < 2s response time for auth operations
+        - 100% of security tests passing
+        
+        Quality Metrics:
+        - > 95% code coverage
+        - 0 critical security vulnerabilities
+        - All OWASP Top 10 addressed
+        
+        Business Metrics:
+        - User registration conversion > 80%
+        - Password reset success rate > 95%
+        - Support tickets for auth < 1%
+    validations:
+      required: true
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks & Mitigation
+      description: Potential risks and how to address them
+      placeholder: |
+        | Risk | Probability | Impact | Mitigation |
+        |------|-------------|---------|------------|
+        | Token security breach | Low | Critical | Implement token rotation, short expiry |
+        | Performance issues | Medium | High | Load testing, caching strategy |
+        | Integration delays | Medium | Medium | Early API mocking, parallel development |
+        | Scope creep | High | Medium | Strict feature boundaries, change control |
+    validations:
+      required: false
+
+  - type: dropdown
+    id: execution-strategy
+    attributes:
+      label: Execution Strategy
+      description: How features will be developed
+      options:
+        - Sequential (one feature at a time)
+        - Parallel (multiple features simultaneously)
+        - Hybrid (core features first, then parallel)
+      default: 2
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: epic-checklist
+    attributes:
+      label: Pre-Epic Checklist
+      description: Confirm these are complete before starting
+      options:
+        - label: Research phase completed
+        - label: Stakeholder approval obtained
+        - label: Technical feasibility confirmed
+        - label: Resource availability verified
+        - label: Dependencies identified
+        - label: Success metrics defined
+
+  - type: textarea
+    id: additional-notes
+    attributes:
+      label: Additional Notes
+      description: Any other relevant information
+      placeholder: |
+        - Consider feature flags for gradual rollout
+        - Plan for backwards compatibility
+        - Document migration strategy for existing users
+    validations:
+      required: false

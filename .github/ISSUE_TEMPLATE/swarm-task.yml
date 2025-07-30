@@ -1,0 +1,435 @@
+name: Swarm Task
+description: Create a task for AI agent swarm execution with complete specifications
+title: "[SWARM] "
+labels: [swarm, task]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ⚡ Swarm Task Template
+        This issue will be executed by Claude Code sub-agents. Ensure ALL sections are complete for autonomous execution.
+        
+        **Use this for:** Single features (1-3 days), focused tasks, or epic sub-issues
+
+  - type: input
+    id: task-name
+    attributes:
+      label: Task Name
+      description: Clear, action-oriented task description
+      placeholder: "Implement JWT authentication endpoints"
+    validations:
+      required: true
+
+  - type: textarea
+    id: task-context
+    attributes:
+      label: 📋 Context & Dependencies
+      description: Background information and prerequisites
+      placeholder: |
+        ## Context
+        This task implements secure JWT-based authentication for our FastAPI backend.
+        
+        ## Dependencies
+        - [ ] Database schema created (Issue #45)
+        - [ ] Supabase project configured
+        - [ ] Frontend routing ready (Issue #52)
+        
+        ## Related Issues
+        - Part of Epic #40 (User Authentication System)
+        - Blocks #55 (User Profile Implementation)
+        
+        ## Existing Code
+        - Auth utilities in `/src/auth/utils.py`
+        - User model in `/src/models/user.py`
+    validations:
+      required: true
+
+  - type: textarea
+    id: swarm-config
+    attributes:
+      label: 🤖 Swarm Configuration
+      description: Agent allocation and execution strategy
+      value: |
+        ```yaml
+        execution_mode: tdd_parallel  # tdd_sequential, parallel, or tdd_parallel
+        total_agents: 5
+        max_concurrent: 3
+        token_budget: 500000
+        cost_limit: $5.00
+        model_preference: claude-sonnet-4  # Use claude-opus-4 only for complex tasks
+        
+        agents:
+          - researcher: Latest JWT best practices, security requirements
+          - tester: Create comprehensive test suite first (TDD)
+          - backend-coder: Implement FastAPI endpoints
+          - security-expert: Security review and hardening
+          - reviewer: Code quality and performance check
+        
+        execution_order:
+          1. researcher → Complete research phase
+          2. tester → Write all failing tests
+          3. backend-coder → Implement to pass tests
+          4. security-expert + reviewer → Parallel review
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-stories
+    attributes:
+      label: 📊 User Stories & Acceptance Criteria
+      description: Business requirements and success criteria
+      placeholder: |
+        ## User Stories
+        
+        1. **As a user**, I want to log in with email/password, so I can access my account
+           - **Given** valid credentials
+           - **When** I submit login form
+           - **Then** I receive a JWT token and 200 status
+        
+        2. **As a user**, I want my session to persist, so I don't have to log in repeatedly
+           - **Given** a valid JWT token
+           - **When** I make authenticated requests
+           - **Then** my requests are authorized
+        
+        3. **As a developer**, I want token refresh, so users stay logged in securely
+           - **Given** an expiring access token
+           - **When** I use my refresh token
+           - **Then** I receive new access/refresh tokens
+        
+        ## Success Metrics
+        - Login response time < 200ms
+        - Token generation < 50ms
+        - 100% security test coverage
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-design
+    attributes:
+      label: 🏗️ Technical Design & Implementation
+      description: Architecture, API design, and actual code snippets
+      placeholder: |
+        ## API Endpoints
+        
+        ```python
+        POST /auth/login
+        POST /auth/logout  
+        POST /auth/refresh
+        GET  /auth/me
+        ```
+        
+        ## Database Schema
+        
+        ```sql
+        -- Already exists in migration 001
+        CREATE TABLE users (
+            id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+            email TEXT UNIQUE NOT NULL,
+            password_hash TEXT NOT NULL,
+            created_at TIMESTAMPTZ DEFAULT NOW(),
+            updated_at TIMESTAMPTZ DEFAULT NOW()
+        );
+        
+        CREATE TABLE refresh_tokens (
+            id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+            user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+            token_hash TEXT UNIQUE NOT NULL,
+            expires_at TIMESTAMPTZ NOT NULL,
+            created_at TIMESTAMPTZ DEFAULT NOW()
+        );
+        ```
+        
+        ## Implementation Code (Actual, not placeholders)
+        
+        ```python
+        # src/api/auth.py
+        from fastapi import APIRouter, Depends, HTTPException, status
+        from datetime import datetime, timedelta
+        import jwt
+        
+        router = APIRouter(prefix="/auth", tags=["authentication"])
+        
+        @router.post("/login", response_model=TokenResponse)
+        async def login(
+            credentials: LoginRequest,
+            db: Database = Depends(get_db)
+        ):
+            # Verify user credentials
+            user = await db.fetch_one(
+                "SELECT * FROM users WHERE email = $1",
+                credentials.email
+            )
+            
+            if not user or not verify_password(credentials.password, user['password_hash']):
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Invalid credentials"
+                )
+            
+            # Generate tokens
+            access_token = create_access_token(user['id'])
+            refresh_token = create_refresh_token(user['id'])
+            
+            # Store refresh token
+            await db.execute(
+                """
+                INSERT INTO refresh_tokens (user_id, token_hash, expires_at)
+                VALUES ($1, $2, $3)
+                """,
+                user['id'],
+                hash_token(refresh_token),
+                datetime.utcnow() + timedelta(days=30)
+            )
+            
+            return TokenResponse(
+                access_token=access_token,
+                refresh_token=refresh_token,
+                token_type="bearer"
+            )
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: test-specifications
+    attributes:
+      label: 🧪 Test Specifications
+      description: Complete test implementations (not just descriptions)
+      placeholder: |
+        ## Unit Tests
+        
+        ```python
+        # tests/test_auth.py
+        import pytest
+        from httpx import AsyncClient
+        from src.auth import create_access_token, verify_token
+        
+        class TestAuthentication:
+            @pytest.mark.asyncio
+            async def test_login_success(self, client: AsyncClient, test_user):
+                """Test successful login returns tokens"""
+                response = await client.post("/auth/login", json={
+                    "email": test_user.email,
+                    "password": "correct_password"
+                })
+                
+                assert response.status_code == 200
+                data = response.json()
+                assert "access_token" in data
+                assert "refresh_token" in data
+                assert data["token_type"] == "bearer"
+                
+                # Verify token is valid
+                payload = verify_token(data["access_token"])
+                assert payload["user_id"] == str(test_user.id)
+            
+            @pytest.mark.asyncio
+            async def test_login_invalid_credentials(self, client: AsyncClient):
+                """Test login with wrong password returns 401"""
+                response = await client.post("/auth/login", json={
+                    "email": "user@example.com",
+                    "password": "wrong_password"
+                })
+                
+                assert response.status_code == 401
+                assert response.json()["detail"] == "Invalid credentials"
+        ```
+        
+        ## Integration Tests
+        
+        ```python
+        @pytest.mark.asyncio
+        async def test_token_refresh_flow(client: AsyncClient, test_user):
+            """Test complete token refresh workflow"""
+            # Login first
+            login_response = await client.post("/auth/login", json={
+                "email": test_user.email,
+                "password": "correct_password"
+            })
+            
+            tokens = login_response.json()
+            
+            # Use refresh token
+            refresh_response = await client.post("/auth/refresh", json={
+                "refresh_token": tokens["refresh_token"]
+            })
+            
+            assert refresh_response.status_code == 200
+            new_tokens = refresh_response.json()
+            assert new_tokens["access_token"] != tokens["access_token"]
+        ```
+        
+        ## Security Tests
+        
+        ```python
+        @pytest.mark.asyncio
+        async def test_sql_injection_prevention(client: AsyncClient):
+            """Test SQL injection attempts are blocked"""
+            response = await client.post("/auth/login", json={
+                "email": "admin' OR '1'='1",
+                "password": "password"
+            })
+            
+            assert response.status_code == 401
+            # Should not expose SQL errors
+            assert "sql" not in response.json()["detail"].lower()
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: security-requirements
+    attributes:
+      label: 🔒 Security Requirements
+      description: Security measures and implementation details
+      placeholder: |
+        ## Security Checklist
+        
+        - [ ] **Password Security**
+          - Bcrypt hashing with cost factor 12
+          - Minimum 8 characters, complexity requirements
+          - No password in logs or responses
+        
+        - [ ] **Token Security**
+          - Access tokens expire in 15 minutes
+          - Refresh tokens expire in 30 days
+          - Tokens signed with RS256 algorithm
+          - Refresh token rotation on use
+        
+        - [ ] **API Security**
+          - Rate limiting: 5 login attempts per minute per IP
+          - Input validation with Pydantic
+          - SQL injection prevention via parameterized queries
+          - CORS configuration for allowed origins only
+        
+        - [ ] **Error Handling**
+          - Generic error messages (no user enumeration)
+          - Secure logging (no sensitive data)
+          - Proper HTTP status codes
+        
+        ## Implementation
+        
+        ```python
+        # Rate limiting middleware
+        from slowapi import Limiter
+        limiter = Limiter(key_func=get_remote_address)
+        
+        @router.post("/login")
+        @limiter.limit("5/minute")
+        async def login(...):
+            # Implementation
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: mcp-tools
+    attributes:
+      label: 🔧 MCP Tools Required
+      description: Which MCP tools will agents need
+      value: |
+        ## Required MCP Tools
+        
+        - [ ] **Supabase MCP**
+          - Database queries and migrations
+          - User table operations
+          - RLS policy creation
+          
+        - [ ] **File System MCP**
+          - Read/write source files
+          - Create test files
+          - Update configurations
+          
+        - [ ] **GitHub MCP** (if needed)
+          - Create PR when complete
+          - Update issue status
+          
+        ## Configuration
+        ```json
+        {
+          "mcpServers": {
+            "supabase": {
+              "command": "npx",
+              "args": ["@supabase/mcp-server-supabase", "--read-write"]
+            }
+          }
+        }
+        ```
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: dod
+    attributes:
+      label: ✅ Definition of Done
+      description: All criteria must be met for task completion
+      options:
+        - label: All tests passing (unit, integration, security)
+        - label: Code coverage > 90%
+        - label: Security review completed
+        - label: Performance benchmarks met (< 200ms response)
+        - label: API documentation updated
+        - label: No linting errors
+        - label: PR approved by reviewer agent
+        - label: Deployment instructions documented
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Task Complexity
+      description: Helps determine agent allocation
+      options:
+        - Simple (< 1 day, 2-3 agents)
+        - Medium (1-2 days, 4-5 agents)
+        - Complex (2-3 days, 6+ agents)
+      default: 1
+    validations:
+      required: true
+
+  - type: textarea
+    id: monitoring
+    attributes:
+      label: 📊 Success Metrics & Monitoring
+      description: How to measure and monitor success
+      placeholder: |
+        ## Performance Metrics
+        - Login endpoint: p95 < 200ms, p99 < 500ms
+        - Token generation: < 50ms
+        - Database queries: < 10ms
+        
+        ## Monitoring Implementation
+        ```python
+        from prometheus_client import Histogram, Counter
+        
+        auth_duration = Histogram('auth_login_duration_seconds', 
+                                  'Login endpoint duration')
+        auth_failures = Counter('auth_login_failures_total',
+                                'Failed login attempts')
+        
+        @auth_duration.time()
+        async def login(...):
+            # Implementation
+        ```
+        
+        ## Alerts
+        - Login failures > 100/minute
+        - Response time > 1s
+        - Token generation errors
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 📝 Additional Context
+      description: Any other relevant information for agents
+      placeholder: |
+        - Follow existing auth patterns in codebase
+        - Use company JWT secret from environment
+        - Consider migration path for existing users
+        - Mobile app compatibility required
+    validations:
+      required: false
