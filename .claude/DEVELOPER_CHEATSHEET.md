@@ -1,5 +1,21 @@
 # DEVELOPER_CHEATSHEET.md - Practical Swarm Usage Guide
 
+## 📌 Key Updates (Based on Documentation Review)
+
+### What's New:
+1. **Best Practices Section** - 10 proven patterns for effective agent prompting
+2. **Agent-Specific Patterns** - Tailored prompts for each custom agent type
+3. **Memory Integration** - SQLite persistence for context retention
+4. **Parallel Execution** - Mandatory for efficiency (up to 10x faster)
+5. **Model Selection Guide** - When to use Sonnet 4 vs Opus 4
+
+### Critical Rules:
+- **ALWAYS** start with research phase - no exceptions
+- **ALWAYS** use parallel execution for multiple agents
+- **ALWAYS** provide complete context upfront
+- **NEVER** use Claude Flow default agents
+- **NEVER** use Opus 4 except for complex coordination
+
 ## 🎯 Quick Decision Tree
 
 ```
@@ -9,6 +25,164 @@ What are you building?
 ├── Medium feature (1-3 days) → Standard swarm (5-6 agents)
 ├── Large feature (3-5 days) → Full swarm (8-10 agents)
 └── Epic (>5 days) → Multi-issue with coordinated swarms
+```
+
+## 🚀 Best Practices for Prompting Custom SWARM Agents
+
+### 1. Always Use Parallel Execution
+```bash
+# ❌ WRONG: Sequential (slow and inefficient)
+@researcher investigate feature
+# wait for completion...
+@planner create issue
+# wait for completion...
+@tester write tests
+
+# ✅ RIGHT: Parallel in ONE message (fast and efficient)
+Think harder about [FEATURE]. Execute in parallel:
+
+@researcher investigate latest patterns and save to /docs/phases/[phase]/research/
+@planner coordinate 6 personas to create comprehensive GitHub issue
+@tester prepare test structure and scenarios
+
+All agents work simultaneously with shared context.
+```
+
+### 2. Provide Complete Context Upfront
+```bash
+# ❌ WRONG: Vague instructions
+@coder implement authentication
+
+# ✅ RIGHT: Complete context with constraints
+@coder implement JWT authentication with:
+- Supabase integration using existing RLS policies
+- Token refresh every 15 minutes
+- Session storage in httpOnly cookies
+- Follow existing auth patterns in src/lib/auth/
+- Use TypeScript strict mode
+- Include error handling for all edge cases
+```
+
+### 3. Use Custom Agents, Not Defaults
+```bash
+# ❌ WRONG: Using Claude Flow defaults
+/sparc dev --task "build feature"
+
+# ✅ RIGHT: Use our custom agents
+@researcher investigate best practices
+@planner orchestrate comprehensive planning
+@tester create TDD test suite
+@coder implement to pass tests
+```
+
+### 4. Memory System for Context Retention
+```bash
+# Store critical decisions and patterns
+@researcher store findings:
+mcp__claude-flow__memory_usage {
+    "action": "store",
+    "key": "architecture/auth-pattern",
+    "value": "JWT with Supabase RLS, 15min refresh",
+    "namespace": "decisions",
+    "ttl": 2592000  # 30 days
+}
+
+# Retrieve for consistency
+@coder before implementing, retrieve:
+mcp__claude-flow__memory_usage {
+    "action": "retrieve",
+    "key": "architecture/auth-pattern",
+    "namespace": "decisions"
+}
+```
+
+### 5. Model Selection Strategy
+```bash
+# Use Sonnet 4 for most tasks (fast, capable, cost-effective)
+@researcher with model:claude-sonnet-4 investigate patterns
+@tester with model:claude-sonnet-4 create test suite
+@reviewer with model:claude-sonnet-4 validate quality
+
+# Use Opus 4 ONLY for complex coordination
+@planner with model:claude-opus-4 coordinate 6 personas
+@epic-planner with model:claude-opus-4 decompose large project
+```
+
+### 6. Research-First Methodology
+```bash
+# ALWAYS start with research phase - no exceptions
+Think ultrahard about [FEATURE]. First research, then plan:
+
+@researcher investigate:
+1. Latest [TECHNOLOGY] best practices 2025
+2. Current OpenAI models and pricing (gpt-4o: $2.50/1M)
+3. Available MCP tools: npx claude-flow@alpha mcp list --details
+4. Security requirements (OWASP current year)
+5. Similar patterns in codebase
+
+Save ALL findings to /docs/phases/[phase]/research/
+Store key decisions in SQLite memory for reuse
+```
+
+### 7. Effective Agent Coordination
+```bash
+# Coordinate sub-agents with clear responsibilities
+@planner orchestrate feature planning:
+
+Spawn these personas IN PARALLEL:
+@product-owner: User stories with BDD acceptance criteria
+@project-manager: Timeline with 20% buffer, dependency graph
+@senior-developer: Architecture with ACTUAL CODE (no TODOs)
+@test-writer: Complete test implementations (not descriptions)
+@frontend-expert: React components with TypeScript code
+@security-expert: Threat model and implementation details
+
+Output: Single GitHub issue as executable specification
+```
+
+### 8. TDD Enforcement Pattern
+```bash
+# Red-Green-Refactor cycle is mandatory
+@tester create comprehensive test suite:
+- Write FAILING tests first (red phase)
+- Include unit (70%), integration (20%), E2E (10%)
+- Tests must fail for the right reasons
+- Commit tests before any implementation
+
+Then and ONLY then:
+@coder implement to make tests pass (green phase)
+@reviewer refactor for quality (refactor phase)
+```
+
+### 9. Batch Operations for Efficiency
+```bash
+# ❌ WRONG: Individual operations
+Create todo 1
+Create todo 2
+Read file A
+Read file B
+
+# ✅ RIGHT: Batch everything
+Single message with multiple operations:
+- TodoWrite: Create 5-10 todos at once
+- Read: Multiple files in parallel
+- Agent spawn: All agents simultaneously
+- Memory ops: Store/retrieve in batches
+```
+
+### 10. Clear Output Expectations
+```bash
+# Be explicit about output format and location
+@researcher output structure:
+/docs/phases/[phase]/research/
+├── best-practices.md       # Current patterns
+├── api-documentation.md    # With version numbers
+├── security-matrix.md      # Vulnerabilities table
+├── tool-availability.md    # MCP tools list
+└── cost-estimate.md        # Token and $ budgets
+
+Include code examples, not descriptions
+Verify all sources < 6 months old
 ```
 
 ## 🚀 Copy-Paste Prompts by Scenario
@@ -426,5 +600,136 @@ SEQUENTIAL WHEN:
 ```
 
 ---
+
+## 🤖 Agent-Specific Prompting Patterns
+
+### Researcher Agent
+```bash
+# Exhaustive investigation with multi-source validation
+@researcher investigate [FEATURE] with sub-agents:
+@api-researcher: Find official docs, SDK examples, rate limits
+@security-researcher: OWASP guidelines, vulnerability databases
+@pattern-researcher: Architecture patterns, scaling strategies
+
+Requirements:
+- Verify dates < 6 months old
+- Include code examples
+- Calculate cost implications
+- Save to /docs/phases/[phase]/research/
+```
+
+### Planner Agent (Opus 4)
+```bash
+# Multi-persona orchestration for comprehensive issues
+@planner coordinate planning for [FEATURE]:
+
+Context for all personas:
+- Feature: [DESCRIPTION]
+- Research: /docs/phases/[phase]/research/*
+- Stack: React, TypeScript, FastAPI, Supabase
+- Standards: >95% coverage, <100ms response
+
+Spawn 6 personas simultaneously
+Synthesize outputs into GitHub issue
+Validate completeness >95% before creation
+```
+
+### Tester Agent
+```bash
+# TDD test creation before implementation
+@tester create failing test suite for [FEATURE]:
+
+Structure:
+- Unit tests (70%): Service logic, edge cases
+- Integration (20%): API contracts, database
+- E2E (10%): User workflows, accessibility
+
+Requirements:
+- All tests MUST fail initially
+- No implementation code
+- Include performance benchmarks
+- Commit before coding starts
+```
+
+### Coder Agents
+```bash
+# Implementation to pass tests
+@backend-coder implement API to pass tests:
+- Follow FastAPI patterns in src/api/
+- Use Pydantic v2 for validation
+- Include comprehensive error handling
+- Optimize database queries
+
+@frontend-coder implement UI to pass E2E tests:
+- Use existing component patterns
+- Zustand for state management
+- TypeScript strict mode
+- Accessibility WCAG 2.1 AA
+```
+
+### Reviewer Agent
+```bash
+# Quality assurance and optimization
+@reviewer validate implementation:
+- Code quality and patterns
+- Security vulnerabilities
+- Performance bottlenecks
+- Test coverage >95%
+- Documentation completeness
+
+Output: Actionable improvements only
+```
+
+## 📋 Common Agent Combinations
+
+### For New Features
+```bash
+# Standard feature team (parallel execution)
+@researcher → @planner → @tester → @coder → @reviewer
+```
+
+### For Bug Fixes
+```bash
+# Minimal team
+@debugger investigate root cause
+@tester write regression tests
+@coder implement fix
+```
+
+### For Refactoring
+```bash
+# Quality team
+@code-reviewer analyze technical debt
+@refactor-expert improve architecture
+@tester ensure no regressions
+```
+
+## 💾 Memory Patterns for Agents
+
+### Store Architecture Decisions
+```bash
+@planner after planning:
+Store ADR (Architecture Decision Record):
+- Key: "adr/[date]-[feature]"
+- Namespace: "architecture"
+- Value: JSON with decision, rationale, alternatives
+```
+
+### Reuse Successful Patterns
+```bash
+@coder before implementing:
+Search memory for similar implementations:
+- Pattern: "*auth*" in namespace "patterns"
+- Use proven approaches from past features
+```
+
+### Track Performance Metrics
+```bash
+@reviewer after optimization:
+Store performance baseline:
+- Key: "perf/[feature]/baseline"
+- Value: Response times, memory usage
+- TTL: 90 days for trending
+```
 
 **Pro tip**: Save your favorite prompts as snippets in your IDE for instant access!
