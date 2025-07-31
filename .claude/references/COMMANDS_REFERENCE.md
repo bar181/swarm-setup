@@ -5,8 +5,8 @@
 **The commands in `.claude/commands/` are Claude Flow defaults and should be used as FALLBACK ONLY.**
 
 Our custom documentation in `.claude/` takes precedence:
-- ✅ Use `.claude/OPTIMAL_SWARM_WORKFLOW.md` 
-- ✅ Use `.claude/DEVELOPER_CHEATSHEET.md`
+- ✅ Use `.claude/guides/OPTIMAL_SWARM_WORKFLOW.md` 
+- ✅ Use `.claude/guides/DEVELOPER_CHEATSHEET.md`
 - ✅ Use `.claude/agents/` custom agents
 - ❌ Avoid `.claude/commands/` unless specifically needed
 
@@ -103,7 +103,7 @@ Target: <$10 per feature
 
 | Need | Don't Use | Use Instead |
 |------|-----------|-------------|
-| Development workflow | `/workflows/development` | `.claude/OPTIMAL_SWARM_WORKFLOW.md` |
+| Development workflow | `/workflows/development` | `.claude/guides/OPTIMAL_SWARM_WORKFLOW.md` |
 | Research approach | `/swarm/research` | `@researcher` custom agent |
 | Testing strategy | `/swarm/testing` | TDD with `@tester` agent |
 | Task coordination | `/sparc/orchestrator` | `@planner` with 6 personas |
@@ -116,7 +116,7 @@ When you must use a command from `/commands/`:
 
 ```bash
 # 1. Check our custom docs first
-cat .claude/DEVELOPER_CHEATSHEET.md | grep [TASK]
+cat .claude/guides/DEVELOPER_CHEATSHEET.md | grep [TASK]
 
 # 2. If not found, check if command adds value
 cat .claude/commands/[category]/[command].md

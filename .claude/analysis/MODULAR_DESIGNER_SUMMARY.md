@@ -86,7 +86,7 @@ The modular designer integrates seamlessly:
 The following files were updated:
 - `.claude/claude.md` - Added modular-designer to agent list
 - `CLAUDE.md` - Added scripts and templates directories
-- `.claude/DEVELOPER_CHEATSHEET.md` - Added module organization section
+- `.claude/guides/DEVELOPER_CHEATSHEET.md` - Added module organization section
 
 ## 🎯 Benefits
 

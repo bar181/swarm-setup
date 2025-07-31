@@ -12,9 +12,11 @@ This project uses **custom SWARM agents** with Claude Flow infrastructure, empha
 project/
 ├── .claude/                                # COMPREHENSIVE DOCUMENTATION
 │   ├── claude.md                           # ⭐ DETAILED MASTER INSTRUCTIONS
-│   ├── OPTIMAL_SWARM_WORKFLOW.md           # Complete execution methodology
-│   ├── DEVELOPER_CHEATSHEET.md             # Quick commands reference
-│   ├── AGENT_CREATION_GUIDE.md             # Custom agent templates
+│   ├── guides/                            # Workflow guides
+│   ├── references/                        # Reference materials
+│   ├── development/                       # Development guides
+│   ├── analysis/                          # Analysis reports
+│   ├── hooks/                             # Hook documentation
 │   ├── scripts/                            # Utility scripts
 │   │   └── detect-mcp-candidates.sh        # Find MCP opportunities
 │   ├── templates/                          # Reusable templates
@@ -81,7 +83,7 @@ npx claude-flow@alpha mcp start --auto-orchestrator --enable-neural
 - Cross-agent coordination
 ```
 
-**See**: `.claude/MEMORY_SYSTEM_GUIDE.md` for comprehensive memory usage
+**See**: `.claude/guides/MEMORY_SYSTEM_GUIDE.md` for comprehensive memory usage
 
 ### Essential Commands
 ```bash
@@ -98,7 +100,7 @@ npx claude-flow@alpha mcp install [tool-name]
 The `.claude/commands/` directory contains Claude Flow defaults. **These should only be used as fallback**:
 - ❌ **AVOID**: `/sparc/*`, `/swarm/*`, `/workflows/*`, `/training/*`
 - ⚠️ **Use Cautiously**: `/github/*`, `/memory/*`, `/monitoring/*`
-- ✅ **See**: `.claude/COMMANDS_REFERENCE.md` for detailed guidance
+- ✅ **See**: `.claude/references/COMMANDS_REFERENCE.md` for detailed guidance
 
 **Always prefer our custom documentation over default commands.**
 
@@ -145,9 +147,9 @@ The `.claude/commands/` directory contains Claude Flow defaults. **These should 
 ## 🔗 Key References
 
 1. **Start Here**: `.claude/claude.md` - Complete project instructions
-2. **Daily Work**: `.claude/DEVELOPER_CHEATSHEET.md` - Quick prompts
-3. **Planning**: `.claude/PHASE_ORCHESTRATION.md` - Research methodology
-4. **Agents**: `.claude/AGENT_CREATION_GUIDE.md` - Custom agent creation
+2. **Daily Work**: `.claude/guides/DEVELOPER_CHEATSHEET.md` - Quick prompts
+3. **Planning**: `.claude/guides/PHASE_ORCHESTRATION.md` - Research methodology
+4. **Agents**: `.claude/development/AGENT_CREATION_GUIDE.md` - Custom agent creation
 
 ## ⚠️ Non-Negotiable Rules
 

@@ -27,7 +27,7 @@ After thorough research and analysis of the claude-flow MCP implementation:
 ## 📝 What Was Done Instead
 
 ### 1. Created MCP Best Practices Guide
-- **File**: `.claude/MCP_BEST_PRACTICES.md`
+- **File**: `.claude/references/MCP_BEST_PRACTICES.md`
 - **Content**: Comprehensive guide on using existing 87 MCP tools
 - **Includes**: Common patterns, integration examples, performance tips
 
@@ -37,7 +37,7 @@ After thorough research and analysis of the claude-flow MCP implementation:
 - **Benefits**: Leverages existing workflow_create, memory_usage, etc.
 
 ### 3. Enhanced Developer Cheatsheet
-- **File**: `.claude/DEVELOPER_CHEATSHEET.md`
+- **File**: `.claude/guides/DEVELOPER_CHEATSHEET.md`
 - **Added**: MCP Quick Reference section
 - **Content**: Common MCP commands and patterns
 

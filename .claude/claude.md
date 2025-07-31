@@ -6,14 +6,14 @@
 project/
 ├── .claude/
 │   ├── CLAUDE.md                           # This file
-│   ├── OPTIMAL_SWARM_WORKFLOW.md           # Master execution guide
+│   ├── guides/OPTIMAL_SWARM_WORKFLOW.md    # Master execution guide
 │   ├── SWARM_EXECUTION_GUIDE.md            # Detailed step-by-step
-│   ├── DEVELOPER_CHEATSHEET.md             # Quick reference
-│   ├── SWARM_BEST_PRACTICES.md             # Real-world lessons and patterns
-│   ├── AGENT_CREATION_GUIDE.md             # How to build custom agents
-│   ├── CLAUDE_MODEL_REFERENCE.md           # Sonnet vs Opus selection
-│   ├── PHASE_ORCHESTRATION.md              # Research-first methodology
-│   ├── EPIC_BREAKDOWN_EXAMPLES.md          # Large project patterns
+│   ├── guides/DEVELOPER_CHEATSHEET.md      # Quick reference
+│   ├── guides/SWARM_BEST_PRACTICES.md      # Real-world lessons and patterns
+│   ├── development/AGENT_CREATION_GUIDE.md # How to build custom agents
+│   ├── references/CLAUDE_MODEL_REFERENCE.md # Sonnet vs Opus selection
+│   ├── guides/PHASE_ORCHESTRATION.md       # Research-first methodology
+│   ├── development/EPIC_BREAKDOWN_EXAMPLES.md # Large project patterns
 │   ├── claude-flow-agents-analysis.md      # Which defaults to avoid
 │   └── agents/                             # Agent definitions
 │       ├── researcher.md
@@ -46,46 +46,46 @@ project/
 ## 📚 Documentation Overview
 
 ### Core Workflow Guides
-- **OPTIMAL_SWARM_WORKFLOW.md** - Complete guide from requirements to deployment
+- **guides/OPTIMAL_SWARM_WORKFLOW.md** - Complete guide from requirements to deployment
 - **SWARM_EXECUTION_GUIDE.md** - Explicit instructions for AI execution
-- **DEVELOPER_CHEATSHEET.md** - Daily quick reference and prompts
-- **SWARM_BEST_PRACTICES.md** - Proven patterns for efficient development
+- **guides/DEVELOPER_CHEATSHEET.md** - Daily quick reference and prompts
+- **guides/SWARM_BEST_PRACTICES.md** - Proven patterns for efficient development
 
 ### Agent Management
-- **AGENT_CREATION_GUIDE.md** - Build custom agents, avoid defaults
-- **CLAUDE_MODEL_REFERENCE.md** - When to use Sonnet 4 vs Opus 4
+- **development/AGENT_CREATION_GUIDE.md** - Build custom agents, avoid defaults
+- **references/CLAUDE_MODEL_REFERENCE.md** - When to use Sonnet 4 vs Opus 4
 - **claude-flow-agents-analysis.md** - Analysis of 64 default agents
 
 ### Planning Tools
-- **PHASE_ORCHESTRATION.md** - Research-first, 6-persona approach
-- **EPIC_BREAKDOWN_EXAMPLES.md** - Decomposing large projects
+- **guides/PHASE_ORCHESTRATION.md** - Research-first, 6-persona approach
+- **development/EPIC_BREAKDOWN_EXAMPLES.md** - Decomposing large projects
 
 ### Commands Reference
-- **COMMANDS_REFERENCE.md** - Guide to `.claude/commands/` directory
+- **references/COMMANDS_REFERENCE.md** - Guide to `.claude/commands/` directory
 - **⚠️ Important**: The `commands/` folder contains Claude Flow defaults - use as fallback only
 - **Always prefer** our custom documentation over default commands
 
 ### Memory System
-- **MEMORY_SYSTEM_GUIDE.md** - SQLite-based persistent memory
+- **guides/MEMORY_SYSTEM_GUIDE.md** - SQLite-based persistent memory
 - **Key Feature**: Cross-session knowledge retention
 - **Use for**: Research findings, decisions, patterns, coordination
 
 ### MCP Integration
-- **MCP_BEST_PRACTICES.md** - How to use 87 claude-flow MCP tools
+- **references/MCP_BEST_PRACTICES.md** - How to use 87 claude-flow MCP tools
 - **Key Feature**: Comprehensive tool ecosystem
 - **Use for**: Swarm coordination, neural training, workflow automation
 
 ### Architecture & Design
-- **MODULAR_DESIGN.md** - Modular architecture for SWARM projects
+- **development/MODULAR_DESIGN.md** - Modular architecture for SWARM projects
 - **Key Concepts**: Vertical slices, module independence, contracts
 - **Use for**: Structuring large projects into manageable modules
 
 ## 🚀 Quick Start
 
-1. **For new features**: Start with PHASE_ORCHESTRATION.md
-2. **For daily work**: Use DEVELOPER_CHEATSHEET.md
-3. **For custom agents**: Follow AGENT_CREATION_GUIDE.md
-4. **For optimization**: Review SWARM_BEST_PRACTICES.md
+1. **For new features**: Start with guides/PHASE_ORCHESTRATION.md
+2. **For daily work**: Use guides/DEVELOPER_CHEATSHEET.md
+3. **For custom agents**: Follow development/AGENT_CREATION_GUIDE.md
+4. **For optimization**: Review guides/SWARM_BEST_PRACTICES.md
 
 ## 🎯 The Optimal Workflow
 
@@ -134,9 +134,9 @@ npx claude-flow@alpha init --minimal --no-agents
 
 When executing tasks, reference these files in order:
 1. Check this CLAUDE.md for overview
-2. Use PHASE_ORCHESTRATION.md for research approach
+2. Use guides/PHASE_ORCHESTRATION.md for research approach
 3. Follow SWARM_EXECUTION_GUIDE.md for implementation
-4. Reference DEVELOPER_CHEATSHEET.md for quick commands
-5. Apply SWARM_BEST_PRACTICES.md for optimization
+4. Reference guides/DEVELOPER_CHEATSHEET.md for quick commands
+5. Apply guides/SWARM_BEST_PRACTICES.md for optimization
 
 Remember: This is your single source of truth. All other files support this master structure.

@@ -74,7 +74,8 @@ project/
 │       ├── tester.md
 │       ├── backend-coder.md
 │       ├── frontend-coder.md
-│       └── reviewer.md
+│       ├── reviewer.md
+│       └── modular-designer.md
 ├── docs/
 │   ├── phases/                             # Phase documentation
 │   │   └── phase-x/
@@ -263,7 +264,7 @@ Focus areas for contributions:
 ## 📚 Documentation
 
 Start with these essential guides in order:
-1. [ARTIFACTS_INDEX.md](.claude/ARTIFACTS_INDEX.md) - Complete documentation overview
+1. [ARTIFACTS_INDEX.md](.claude/references/ARTIFACTS_INDEX.md) - Complete documentation overview
 2. [OPTIMAL_SWARM_WORKFLOW.md](.claude/guides/OPTIMAL_SWARM_WORKFLOW.md) - Master workflow
 3. [DEVELOPER_CHEATSHEET.md](.claude/guides/DEVELOPER_CHEATSHEET.md) - Daily quick reference
 
